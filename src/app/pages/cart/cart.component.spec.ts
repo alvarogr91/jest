@@ -50,6 +50,13 @@ describe('Cart Component', () => {
         component = fixture.componentInstance;
         service = fixture.debugElement.injector.get(BookService);
         fixture.detectChanges(); 
+        // Agregamos esta llamada al servicio porque aparece en ngOnInit:
+        jest.spyOn(service, 'getBooksFromCart').mockImplementation(() => bookList);
+    });
+
+    afterEach(() => {
+        fixture.destroy();
+        jest.resetAllMocks();
     });
 
     it('should create', () => {
@@ -85,5 +92,29 @@ describe('Cart Component', () => {
         expect(book.amount).toBe(2);
         expect(spy).toHaveBeenCalled();
         expect(spy2).toHaveBeenCalled();
+    });
+
+    // 25.- Test a métodos privados
+    it('onClearBooks works', () => {
+        const spy = jest.spyOn(service, 'removeBooksFromCart').mockImplementation(() => null);
+        const spy2 = jest.spyOn(component as any, '_clearListCartBook')
+        component.listCartBook = bookList;
+        component.onClearBooks();
+        expect(component.listCartBook.length).toBe(0);
+        expect(spy).toHaveBeenCalled();
+        expect(spy2).toHaveBeenCalled();
+        component.listCartBook = [];
+        component.onClearBooks();
+        expect(spy).toHaveBeenCalled();
+        expect(spy2).toHaveBeenCalled();
+
+    });
+
+    it('_clearListCartBook works', () => {
+        const spy = jest.spyOn(service, 'removeBooksFromCart').mockImplementation(() => null);
+        component.listCartBook = bookList;
+        component['_clearListCartBook']();
+        expect(component.listCartBook.length).toBe(0);
+        expect(spy).toHaveBeenCalled();
     });
 });

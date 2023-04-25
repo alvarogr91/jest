@@ -23,6 +23,11 @@ describe('XXXXX Component', () => {
         fixture.detectChanges(); 
     });
 
+    afterEach(() => {
+        fixture.destroy();
+        jest.resetAllMocks();
+    });
+
     it('should create', () => {
         expect(component).toBeTruthy();
     });
