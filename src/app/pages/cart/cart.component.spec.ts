@@ -29,7 +29,7 @@ const bookList: Book[] = [
     }
 ]
 
-describe('Cart Component', () => {
+xdescribe('Cart Component', () => {
     let component: CartComponent;
     let fixture: ComponentFixture<CartComponent>;
     let service: BookService;
@@ -110,11 +110,19 @@ describe('Cart Component', () => {
 
     });
 
-    it('_clearListCartBook works', () => {
+    xit('_clearListCartBook works', () => {
         const spy = jest.spyOn(service, 'removeBooksFromCart').mockImplementation(() => null);
         component.listCartBook = bookList;
         component['_clearListCartBook']();
         expect(component.listCartBook.length).toBe(0);
         expect(spy).toHaveBeenCalled();
     });
+
+    // 29.- xit, xdescribe, fit, fdescribe, it.only, describe.only
+    // xit hace que nos saltemos un test en concreto
+    // xdescribe hace que nos saltemos todos los tests dentro de un describe
+    // fit hace que solamente se lancen los tests de un it en concreto
+    // it.only hace lo mismo que fit
+    // fdescribe hace que solamente se lancen los tests de un describe concreto
+    // describe.only hace lo mismo que fdescribe
 });
