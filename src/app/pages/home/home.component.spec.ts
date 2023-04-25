@@ -39,11 +39,28 @@ describe('HomeComponent', () => {
             schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
         }).compileComponents();
     });
-
+    
+    // 30.- beforEach, beforeAll, afterEach, afterAll
+    // beforeEach se lanzará una vez antes de cada test
     beforeEach(() => {
         fixture = TestBed.createComponent(HomeComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
+    });
+
+    // beforeAll se lanzará una vez antes de todos los tests
+    beforeAll(() => {
+
+    });
+
+    // afterEach se lanzará una vez después de cada test
+    afterEach(() => {
+
+    });
+
+    // afterAll se lanzará una vez después de que se hayan llamado todos los tests
+    afterAll(() => {
+
     });
 
     it('should component be created', () => {
