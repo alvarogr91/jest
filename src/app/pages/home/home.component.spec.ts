@@ -20,11 +20,22 @@ describe('HomeComponent', () => {
     amount: 2
 	}];
 
+    const bookServiceMock = {
+        getBooks: () => of(bookList)
+    }
+
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
             declarations: [HomeComponent],
-            providers: [BookService],
+            providers: [
+                // BookService
+                // 28.- Mock de un servicio
+                {
+                    provide: BookService,
+                    useValue: bookServiceMock
+                }
+            ],
             schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
         }).compileComponents();
     });
