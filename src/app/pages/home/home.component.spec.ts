@@ -17,7 +17,7 @@ describe('HomeComponent', () => {
 		description: "Book Description 1",
 		photoUrl: "/assets/img/book.png",
 		price: 8,
-    amount: 2
+        amount: 2
 	}];
 
     const bookServiceMock = {
