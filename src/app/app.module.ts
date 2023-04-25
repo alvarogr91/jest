@@ -10,6 +10,7 @@ import { BookService } from './services/book.service';
 // Components
 import { MainComponent } from './pages/main/main.component';
 import { CartComponent } from './pages/cart/cart.component';
+import { HomeComponent } from './pages/home/home.component';
 
 
 
@@ -17,7 +18,8 @@ import { CartComponent } from './pages/cart/cart.component';
   declarations: [
     AppComponent,
     MainComponent,
-    CartComponent
+    CartComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
