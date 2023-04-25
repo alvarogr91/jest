@@ -7,6 +7,9 @@ import { AppComponent } from './app.component';
 // Services
 import { BookService } from './services/book.service';
 
+// Pipes
+import { ReduceTextPipe } from './pipes/reduce-text/reduce-text.pipe';
+
 // Components
 import { MainComponent } from './pages/main/main.component';
 import { CartComponent } from './pages/cart/cart.component';
@@ -19,7 +22,8 @@ import { HomeComponent } from './pages/home/home.component';
     AppComponent,
     MainComponent,
     CartComponent,
-    HomeComponent
+    HomeComponent,
+    ReduceTextPipe
   ],
   imports: [
     BrowserModule,

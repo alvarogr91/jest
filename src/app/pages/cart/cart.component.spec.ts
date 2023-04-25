@@ -29,7 +29,7 @@ const bookList: Book[] = [
     }
 ]
 
-xdescribe('Cart Component', () => {
+describe('Cart Component', () => {
     let component: CartComponent;
     let fixture: ComponentFixture<CartComponent>;
     let service: BookService;
@@ -110,7 +110,7 @@ xdescribe('Cart Component', () => {
 
     });
 
-    xit('_clearListCartBook works', () => {
+    it('_clearListCartBook works', () => {
         const spy = jest.spyOn(service, 'removeBooksFromCart').mockImplementation(() => null);
         component.listCartBook = bookList;
         component['_clearListCartBook']();
