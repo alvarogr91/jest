@@ -2,10 +2,11 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CartComponent } from "./cart.component";
 import { BookService } from "../../services/book.service";
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NO_ERRORS_SCHEMA } from "@angular/core";
 import { Book } from "src/app/models/book.model";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { of } from "rxjs";
+import { By } from "@angular/platform-browser";
 
 const bookList: Book[] = [
     {
@@ -150,4 +151,25 @@ describe('Cart Component', () => {
     // it.only hace lo mismo que fit
     // fdescribe hace que solamente se lancen los tests de un describe concreto
     // describe.only hace lo mismo que fdescribe
+
+    // 41.- Introducción a los tests de integración
+    describe('Check title behavior', () => {
+        it('The title "the cart is empty" wont show if there is a list', () => {
+            component.listCartBook = bookList;
+            fixture.detectChanges();
+            const debugElement: DebugElement = fixture.debugElement.query(By.css('#titleCartEmpty'));
+            expect(debugElement).toBeFalsy();
+        });
+    
+        it('Title will show if the list is empty', () => {
+            component.listCartBook = [];
+            fixture.detectChanges();
+            const debugElement: DebugElement = fixture.debugElement.query(By.css('#titleCartEmpty'));
+            expect(debugElement).toBeTruthy();
+            if(debugElement) {
+                const element: HTMLElement = debugElement.nativeElement;
+                expect(element.innerHTML).toContain('The cart is empty');
+            }
+        });
+    });
 });
