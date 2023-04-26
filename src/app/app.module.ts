@@ -14,6 +14,7 @@ import { ReduceTextPipe } from './pipes/reduce-text/reduce-text.pipe';
 import { MainComponent } from './pages/main/main.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { HomeComponent } from './pages/home/home.component';
+import { NavComponent } from './nav/nav.component';
 
 
 
@@ -23,7 +24,8 @@ import { HomeComponent } from './pages/home/home.component';
     MainComponent,
     CartComponent,
     HomeComponent,
-    ReduceTextPipe
+    ReduceTextPipe,
+    NavComponent
   ],
   imports: [
     BrowserModule,
