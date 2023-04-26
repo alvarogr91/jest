@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
 
 // Services
 import { BookService } from './services/book.service';
@@ -14,7 +16,8 @@ import { ReduceTextPipe } from './pipes/reduce-text/reduce-text.pipe';
 import { MainComponent } from './pages/main/main.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { HomeComponent } from './pages/home/home.component';
-import { NavComponent } from './nav/nav.component';
+import { NavComponent } from './components/nav/nav.component';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 
 
@@ -25,12 +28,15 @@ import { NavComponent } from './nav/nav.component';
     CartComponent,
     HomeComponent,
     ReduceTextPipe,
-    NavComponent
+    NavComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatDialogModule
   ],
   providers: [BookService],
   bootstrap: [AppComponent]

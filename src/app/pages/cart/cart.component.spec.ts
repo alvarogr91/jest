@@ -4,6 +4,8 @@ import { CartComponent } from "./cart.component";
 import { BookService } from "../../services/book.service";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { Book } from "src/app/models/book.model";
+import { MatDialog, MatDialogModule } from "@angular/material/dialog";
+import { of } from "rxjs";
 
 const bookList: Book[] = [
     {
@@ -37,10 +39,18 @@ describe('Cart Component', () => {
     // Test configuration
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [ HttpClientTestingModule ],
-            declarations: [ CartComponent ],
-            providers: [ BookService ],
-            schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ]
+            imports: [HttpClientTestingModule, MatDialogModule],
+            declarations: [CartComponent],
+            providers: [BookService, {
+                provide: MatDialog, useValue: {
+                    open: () => {
+                        return {
+                            afterClosed: () => { return of(true) }
+                        }
+                    }
+                }
+            }],
+            schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
         })
     });
 
@@ -49,7 +59,7 @@ describe('Cart Component', () => {
         fixture = TestBed.createComponent(CartComponent);
         component = fixture.componentInstance;
         service = fixture.debugElement.injector.get(BookService);
-        fixture.detectChanges(); 
+        fixture.detectChanges();
         // Agregamos esta llamada al servicio porque aparece en ngOnInit:
         jest.spyOn(service, 'getBooksFromCart').mockImplementation(() => bookList);
     });
@@ -57,6 +67,7 @@ describe('Cart Component', () => {
     afterEach(() => {
         fixture.destroy();
         jest.resetAllMocks();
+        localStorage.clear();
     });
 
     it('should create', () => {
@@ -73,7 +84,7 @@ describe('Cart Component', () => {
     it('onInputNumberChange increases correctly', () => {
         const action = 'plus';
         const book: Book = bookList[0];
-        const spy = jest.spyOn(service, 'updateAmountBook').mockImplementation(() => [] );
+        const spy = jest.spyOn(service, 'updateAmountBook').mockImplementation(() => []);
         const spy2 = jest.spyOn(component, 'getTotalPrice').mockImplementation(() => 0);
         expect(book.amount).toBe(2);
         component.onInputNumberChange(action, book);
@@ -85,7 +96,7 @@ describe('Cart Component', () => {
     it('onInputNumberChange decreases correctly', () => {
         const action = 'minus';
         const book: Book = bookList[0];
-        const spy = jest.spyOn(service, 'updateAmountBook').mockImplementation(() => [] );
+        const spy = jest.spyOn(service, 'updateAmountBook').mockImplementation(() => []);
         const spy2 = jest.spyOn(component, 'getTotalPrice').mockImplementation(() => 0);
         expect(book.amount).toBe(3);
         component.onInputNumberChange(action, book);
@@ -95,19 +106,33 @@ describe('Cart Component', () => {
     });
 
     // 25.- Test a métodos privados
-    it('onClearBooks works', () => {
-        const spy = jest.spyOn(service, 'removeBooksFromCart').mockImplementation(() => null);
-        const spy2 = jest.spyOn(component as any, '_clearListCartBook')
-        component.listCartBook = bookList;
-        component.onClearBooks();
-        expect(component.listCartBook.length).toBe(0);
-        expect(spy).toHaveBeenCalled();
-        expect(spy2).toHaveBeenCalled();
-        component.listCartBook = [];
-        component.onClearBooks();
-        expect(spy).toHaveBeenCalled();
-        expect(spy2).toHaveBeenCalled();
+    describe('onClearBooks()', () => {
+        // const spy = jest.spyOn(service, 'removeBooksFromCart').mockImplementation(() => null);
+        // const spy2 = jest.spyOn(component as any, '_clearListCartBook')
+        // component.listCartBook = bookList;
+        // component.onClearBooks();
+        // expect(component.listCartBook.length).toBe(0);
+        // expect(spy).toHaveBeenCalled();
+        // expect(spy2).toHaveBeenCalled();
+        // component.listCartBook = [];
+        // component.onClearBooks();
+        // expect(spy).toHaveBeenCalled();
+        // expect(spy2).toHaveBeenCalled();
 
+        // 38.- Usando MatDialog
+        // 39.- Adaptando tests en CartComponent
+        it('should open dialog', () => {
+            localStorage.setItem('listCartBook', JSON.stringify(bookList));
+            component.listCartBook = JSON.parse(JSON.stringify(localStorage.getItem('listCartBook')));
+            component.onClearBooks();
+            expect(component.listCartBook).toBeTruthy();
+        });
+        it('should NOT open dialog', () => {
+            localStorage.setItem('listCartBook', '');
+            component.listCartBook = JSON.parse(JSON.stringify(localStorage.getItem('listCartBook')));
+            component.onClearBooks();
+            expect(component.listCartBook).not.toBeTruthy();
+        });
     });
 
     it('_clearListCartBook works', () => {
