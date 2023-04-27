@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { BookService } from '../../services/book.service';
 import { Book } from '../../models/book.model';
 
 import { take } from 'rxjs/operators';
+import { DOCUMENT } from '@angular/common';
 
 
 @Component({
@@ -15,11 +16,13 @@ export class HomeComponent implements OnInit {
   public listBook: Book[] = [];
 
   constructor(
-    public readonly bookService: BookService
+    public readonly bookService: BookService,
+    @Inject(DOCUMENT) private readonly _document: Document,
   ) { }
 
   ngOnInit(): void {
     this.getBooks();
+    this._document.defaultView?.alert('Holi');
   }
 
   public getBooks(): void {

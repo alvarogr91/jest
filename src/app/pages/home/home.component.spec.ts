@@ -4,6 +4,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, Pipe, PipeTransform } from "@
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { BookService } from "../../services/book.service";
 import { of } from "rxjs";
+import { DOCUMENT } from "@angular/common";
 
 describe('HomeComponent', () => {
     let component: HomeComponent;
@@ -45,6 +46,10 @@ describe('HomeComponent', () => {
                 {
                     provide: BookService,
                     useValue: bookServiceMock
+                },
+                {
+                    provide: Document,
+                    useExisting: DOCUMENT
                 }
             ],
             schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
@@ -86,5 +91,14 @@ describe('HomeComponent', () => {
         expect(spy).toHaveBeenCalledTimes(1);
         expect(component.listBook.length).toBe(1);
         expect(component.listBook).toEqual(bookList);
+    });
+
+    // 44.- Test a document y window
+    it('test alert', () => {
+        const documentService = TestBed.inject(Document);
+        const windowAngular: any = documentService.defaultView;
+        const spy = jest.spyOn(windowAngular, 'alert').mockImplementation(() => null);
+        component.ngOnInit();
+        expect(spy).toHaveBeenCalled();
     });
 });
